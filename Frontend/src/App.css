@@ -1,0 +1,33 @@
+/* ==========================================================================
+   TRIDENTIST - ESTILO INMERSIVO ROCKSTAR (GTA 6)
+   Ajustes globales para limpiar restricciones de Vite y optimizar layouts
+   ========================================================================== */
+
+/* Forzar que el scroll suave funcione en todo el documento */
+html {
+  scroll-behavior: smooth;
+  background-color: #0b0b0d;
+}
+
+/* Ocultar barras de scroll secundarias y asegurar comportamiento de pantalla completa */
+body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
+  background-color: #0b0b0d;
+}
+
+/* Optimización para las fuentes masivas (11xl) de Tailwind */
+.font-black {
+  font-weight: 900;
+}
+
+/* Sombra de texto pesada estilo carátula cinematográfica */
+.text-shadow-rockstar {
+  text-shadow: 0 10px 30px rgba(0, 0, 0, 0.95), 0 4px 10px rgba(0, 0, 0, 0.8);
+}
+
+/* Ajuste opcional para suavizar los bordes del video de fondo */
+video {
+  pointer-events: none; /* Evita que el usuario pueda pausar el video con un clic */
+}
