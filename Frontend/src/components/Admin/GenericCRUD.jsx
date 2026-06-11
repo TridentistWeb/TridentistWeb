@@ -78,65 +78,74 @@ const GenericCRUD = ({ entityName, endpoint, columns, formFields, primaryKey }) 
   };
 
   return (
-    <div className="bg-light-gray rounded-xl p-6 border border-gray-800">
-      <div className="flex justify-between items-center mb-6">
-        <h3 className="text-2xl font-bold text-white uppercase tracking-wider">Gestión de {entityName}</h3>
-        <button onClick={openAddModal} className="bg-dental-blue hover:bg-dental-blue-light text-white px-4 py-2 rounded flex items-center gap-2 font-bold uppercase text-sm">
+    <div className="card bg-dark text-white border-secondary">
+      <div className="card-header border-secondary d-flex justify-content-between align-items-center p-3">
+        <h3 className="mb-0 fs-4 fw-bold text-uppercase">Gestión de {entityName}</h3>
+        <button onClick={openAddModal} className="btn btn-primary d-flex align-items-center gap-2 fw-bold text-uppercase btn-sm">
           <Plus size={16} /> Nuevo
         </button>
       </div>
 
-      <div className="overflow-x-auto">
-        <table className="w-full text-left border-collapse">
-          <thead>
-            <tr className="bg-black text-gray-400 uppercase text-xs tracking-wider border-b border-gray-800">
-              {columns.map(col => <th key={col.key} className="p-4">{col.label}</th>)}
-              <th className="p-4 text-right">Acciones</th>
-            </tr>
-          </thead>
-          <tbody>
-            {data.map(item => (
-              <tr key={item[primaryKey]} className="border-b border-gray-800 hover:bg-gray-900 transition-colors">
-                {columns.map(col => <td key={col.key} className="p-4 text-gray-300">{item[col.key]}</td>)}
-                <td className="p-4 flex justify-end gap-3">
-                  {entityName === 'Boletas' && (
-                    <button onClick={() => downloadPdf(item[primaryKey])} className="text-blue-400 hover:text-blue-300"><FileText size={18} /></button>
-                  )}
-                  <button onClick={() => openEditModal(item)} className="text-yellow-500 hover:text-yellow-400"><Edit size={18} /></button>
-                  <button onClick={() => handleDelete(item[primaryKey])} className="text-red-500 hover:text-red-400"><Trash2 size={18} /></button>
-                </td>
+      <div className="card-body p-0">
+        <div className="table-responsive">
+          <table className="table table-dark table-hover table-striped mb-0">
+            <thead>
+              <tr className="text-uppercase small">
+                {columns.map(col => <th key={col.key} className="p-3">{col.label}</th>)}
+                <th className="p-3 text-end">Acciones</th>
               </tr>
-            ))}
-            {data.length === 0 && (
-              <tr><td colSpan={columns.length + 1} className="p-8 text-center text-gray-500">No hay registros</td></tr>
-            )}
-          </tbody>
-        </table>
+            </thead>
+            <tbody>
+              {data.map(item => (
+                <tr key={item[primaryKey]}>
+                  {columns.map(col => <td key={col.key} className="p-3 align-middle">{item[col.key]}</td>)}
+                  <td className="p-3 text-end align-middle">
+                    {entityName === 'Boletas' && (
+                      <button onClick={() => downloadPdf(item[primaryKey])} className="btn btn-outline-info btn-sm me-2" title="Descargar PDF"><FileText size={16} /></button>
+                    )}
+                    <button onClick={() => openEditModal(item)} className="btn btn-outline-warning btn-sm me-2" title="Editar"><Edit size={16} /></button>
+                    <button onClick={() => handleDelete(item[primaryKey])} className="btn btn-outline-danger btn-sm" title="Eliminar"><Trash2 size={16} /></button>
+                  </td>
+                </tr>
+              ))}
+              {data.length === 0 && (
+                <tr><td colSpan={columns.length + 1} className="p-4 text-center text-secondary">No hay registros</td></tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
 
       {showModal && (
-        <div className="fixed inset-0 bg-black/80 flex items-center justify-center z-50 p-4">
-          <div className="bg-dark-gray border border-gray-700 p-8 rounded-xl w-full max-w-lg">
-            <h3 className="text-2xl font-bold text-white mb-6 uppercase">{isEditing ? 'Editar' : 'Nuevo'} {entityName}</h3>
-            <form onSubmit={handleSubmit} className="flex flex-col gap-4">
-              {formFields.map(field => (
-                <div key={field.name}>
-                  <label className="block text-gray-400 text-xs font-bold mb-1 uppercase">{field.label}</label>
-                  <input 
-                    type={field.type || 'text'} 
-                    name={field.name}
-                    value={formData[field.name] || ''}
-                    onChange={handleInputChange}
-                    className="w-full bg-black border border-gray-700 text-white p-3 rounded focus:outline-none focus:border-dental-blue"
-                    required={field.required}
-                  />
-                </div>
-              ))}
-              <div className="flex justify-end gap-4 mt-4">
-                <button type="button" onClick={() => setShowModal(false)} className="px-4 py-2 text-gray-400 hover:text-white uppercase font-bold text-sm">Cancelar</button>
-                <button type="submit" className="bg-dental-blue text-white px-6 py-2 rounded uppercase font-bold text-sm hover:bg-dental-blue-light">Guardar</button>
+        <div className="modal show d-block" tabIndex="-1" style={{ backgroundColor: 'rgba(0,0,0,0.8)' }}>
+          <div className="modal-dialog modal-dialog-centered">
+            <div className="modal-content bg-dark border-secondary text-white">
+              <div className="modal-header border-secondary">
+                <h5 className="modal-title fw-bold text-uppercase">{isEditing ? 'Editar' : 'Nuevo'} {entityName}</h5>
+                <button type="button" className="btn-close btn-close-white" onClick={() => setShowModal(false)} aria-label="Close"></button>
               </div>
-            </form>
+              <div className="modal-body">
+                <form onSubmit={handleSubmit}>
+                  {formFields.map(field => (
+                    <div className="mb-3" key={field.name}>
+                      <label className="form-label fw-bold text-uppercase small text-secondary">{field.label}</label>
+                      <input 
+                        type={field.type || 'text'} 
+                        name={field.name}
+                        value={formData[field.name] || ''}
+                        onChange={handleInputChange}
+                        className="form-control bg-dark text-white border-secondary"
+                        required={field.required}
+                      />
+                    </div>
+                  ))}
+                  <div className="d-flex justify-content-end gap-2 mt-4">
+                    <button type="button" onClick={() => setShowModal(false)} className="btn btn-outline-secondary fw-bold text-uppercase">Cancelar</button>
+                    <button type="submit" className="btn btn-primary fw-bold text-uppercase">Guardar</button>
+                  </div>
+                </form>
+              </div>
+            </div>
           </div>
         </div>
       )}

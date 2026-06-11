@@ -1,12 +1,10 @@
 package com.utp.tridentist.security;
 
-import com.utp.tridentist.model.Administrador;
-import com.utp.tridentist.repository.AdministradorRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -14,14 +12,14 @@ import java.util.ArrayList;
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
 
-    @Autowired
-    private AdministradorRepository administradorRepository;
+    private final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        Administrador admin = administradorRepository.findByEmail(username)
-                .orElseThrow(() -> new UsernameNotFoundException("Admin not found with email: " + username));
-
-        return new User(admin.getEmail(), admin.getPassword(), new ArrayList<>());
+        if ("admin".equals(username)) {
+            // "admin" encoded
+            return new User("admin", passwordEncoder.encode("admin"), new ArrayList<>());
+        }
+        throw new UsernameNotFoundException("Admin not found with username: " + username);
     }
 }

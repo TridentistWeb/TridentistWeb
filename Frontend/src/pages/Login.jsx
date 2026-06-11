@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import api from '../api/axiosConfig';
 
 const Login = () => {
-  const [email, setEmail] = useState('');
+  const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const navigate = useNavigate();
@@ -12,7 +12,7 @@ const Login = () => {
   const handleLogin = async (e) => {
     e.preventDefault();
     try {
-      const res = await api.post('/auth/login', { email, password });
+      const res = await api.post('/auth/login', { username, password });
       localStorage.setItem('jwt_token', res.data.token);
       localStorage.setItem('admin_name', res.data.nombres);
       navigate('/admin/dashboard');
@@ -37,12 +37,12 @@ const Login = () => {
 
         <form onSubmit={handleLogin} className="flex flex-col gap-6">
           <div>
-            <label className="block text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">Email</label>
+            <label className="block text-gray-400 text-sm font-bold mb-2 uppercase tracking-wider">Usuario</label>
             <input 
-              type="email" 
+              type="text" 
               className="w-full bg-black border border-gray-700 text-white p-4 rounded focus:outline-none focus:border-dental-blue transition-colors"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
               required
             />
           </div>

@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import GenericCRUD from '../components/Admin/GenericCRUD';
-import { LogOut, Users, Activity, Calendar, FileText, UserPlus } from 'lucide-react';
+import Consultas from './Consultas';
+import { LogOut, Users, Activity, Calendar, FileText, UserPlus, Search } from 'lucide-react';
 
 const AdminDashboard = () => {
   const [activeTab, setActiveTab] = useState('pacientes');
@@ -28,6 +29,7 @@ const AdminDashboard = () => {
     { id: 'tratamientos', label: 'Tratamientos', icon: Activity },
     { id: 'citas', label: 'Citas', icon: Calendar },
     { id: 'boletas', label: 'Boletas', icon: FileText },
+    { id: 'consultas', label: 'Consultas DTO', icon: Search },
   ];
 
   const renderContent = () => {
@@ -62,43 +64,51 @@ const AdminDashboard = () => {
           columns={[{key: 'numeroBoleta', label: 'N°'}, {key: 'fechaEmision', label: 'Fecha'}, {key: 'total', label: 'Total'}]}
           formFields={[{name: 'fechaEmision', label: 'Fecha (YYYY-MM-DDTHH:mm:ss)', required: true}, {name: 'codigoPaciente', label: 'Código Paciente', type: 'number', required: true}, {name: 'total', label: 'Total', type: 'number', required: true}]}
         />;
+      case 'consultas':
+        return <Consultas />;
       default: return null;
     }
   };
 
   return (
-    <div className="min-h-screen bg-black flex">
+    <div className="container-fluid min-vh-100 bg-dark text-white p-0 d-flex">
       {/* Sidebar */}
-      <div className="w-64 bg-dark-gray border-r border-gray-800 flex flex-col">
-        <div className="p-6 border-b border-gray-800">
-          <h1 className="text-2xl font-black text-white uppercase tracking-tighter">Tridentist</h1>
-          <p className="text-dental-blue text-sm uppercase tracking-widest mt-1">Admin Panel</p>
-        </div>
-        <nav className="flex-1 p-4 flex flex-col gap-2">
+      <div className="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark border-end border-secondary" style={{ width: '280px' }}>
+        <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none border-bottom border-secondary pb-3 w-100">
+          <span className="fs-4 fw-bold text-uppercase">Tridentist <span className="text-primary fs-6 d-block">Admin Panel</span></span>
+        </a>
+        <ul className="nav nav-pills flex-column mb-auto mt-3 gap-2">
           {tabs.map(tab => {
             const isActive = activeTab === tab.id;
             return (
-              <button 
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={'flex items-center gap-3 w-full p-3 rounded uppercase font-bold text-sm tracking-wider transition-colors ' + (isActive ? 'bg-dental-blue text-white' : 'text-gray-400 hover:bg-gray-800 hover:text-white')}
-              >
-                <tab.icon size={18} />
-                {tab.label}
-              </button>
+              <li className="nav-item" key={tab.id}>
+                <button 
+                  onClick={() => setActiveTab(tab.id)}
+                  className={`nav-link text-uppercase fw-bold w-100 text-start d-flex align-items-center gap-3 ${isActive ? 'active bg-primary' : 'text-white hover-bg-secondary'}`}
+                  style={!isActive ? { transition: 'background-color 0.2s' } : {}}
+                  onMouseOver={(e) => !isActive && (e.currentTarget.style.backgroundColor = '#343a40')}
+                  onMouseOut={(e) => !isActive && (e.currentTarget.style.backgroundColor = 'transparent')}
+                >
+                  <tab.icon size={18} />
+                  {tab.label}
+                </button>
+              </li>
             );
           })}
-        </nav>
-        <div className="p-4 border-t border-gray-800">
-          <div className="mb-4 px-3 text-sm text-gray-400">Hola, <span className="text-white font-bold">{adminName}</span></div>
-          <button onClick={handleLogout} className="flex items-center gap-3 w-full p-3 text-red-500 hover:bg-red-500/10 rounded uppercase font-bold text-sm tracking-wider transition-colors">
-            <LogOut size={18} /> Cerrar Sesión
-          </button>
+        </ul>
+        <hr className="border-secondary" />
+        <div className="dropdown">
+          <div className="d-flex align-items-center text-white text-decoration-none">
+            <strong className="me-2">Hola, {adminName}</strong>
+            <button onClick={handleLogout} className="btn btn-outline-danger btn-sm ms-auto d-flex align-items-center gap-2">
+              <LogOut size={16} /> Salir
+            </button>
+          </div>
         </div>
       </div>
 
       {/* Main Content */}
-      <div className="flex-1 p-10 overflow-y-auto">
+      <div className="flex-grow-1 p-4 overflow-auto" style={{ backgroundColor: '#121212' }}>
         {renderContent()}
       </div>
     </div>

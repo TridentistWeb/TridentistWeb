@@ -4,6 +4,7 @@ com/utp/tridentist/service/PdfService.class
 com/utp/tridentist/controller/AuthController.class
 com/utp/tridentist/service/CitaService.class
 com/utp/tridentist/model/DetalleBoleta.class
+com/utp/tridentist/dto/CitaDetalleDTO.class
 com/utp/tridentist/config/CorsConfig$1.class
 com/utp/tridentist/controller/PacienteController.class
 com/utp/tridentist/service/DoctorService.class
@@ -21,6 +22,7 @@ com/utp/tridentist/service/TratamientoService.class
 com/utp/tridentist/service/DetalleBoletaService.class
 com/utp/tridentist/model/Doctor.class
 com/utp/tridentist/security/JwtUtil.class
+com/utp/tridentist/controller/ConsultaController.class
 com/utp/tridentist/model/Boleta.class
 com/utp/tridentist/security/UserDetailsServiceImpl.class
 com/utp/tridentist/service/PacienteService.class
