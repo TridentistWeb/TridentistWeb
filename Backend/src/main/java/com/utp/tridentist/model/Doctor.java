@@ -27,6 +27,9 @@ public class Doctor {
     @Column(name = "Email", length = 100)
     private String email;
 
+    @Column(name = "video_url")
+    private String videoUrl;
+
     // Getters and Setters
     public Integer getCodigo() { return codigo; }
     public void setCodigo(Integer codigo) { this.codigo = codigo; }
@@ -48,4 +51,7 @@ public class Doctor {
 
     public String getEmail() { return email; }
     public void setEmail(String email) { this.email = email; }
+
+    public String getVideoUrl() { return videoUrl; }
+    public void setVideoUrl(String videoUrl) { this.videoUrl = videoUrl; }
 }

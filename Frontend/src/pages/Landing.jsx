@@ -1,13 +1,53 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Hero from '../components/Landing/Hero';
-import Treatments from '../components/Landing/Treatments';
 import Specialists from '../components/Landing/Specialists';
 
 const pageVariants = {
   initial: { opacity: 0 },
   in: { opacity: 1, transition: { duration: 0.5 } },
   out: { opacity: 0, transition: { duration: 0.5 } }
+};
+
+const Navigation = () => {
+  const [scrolled, setScrolled] = useState(false);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrolled(window.scrollY > 50);
+    };
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
+  const navItems = ['INICIO', 'QUIENES SOMOS', 'NUESTROS DOCTORES', 'UBICACION', 'CONTACTO'];
+
+  return (
+    <nav className={"fixed-top w-100 transition-all p-4 z-3 " + (scrolled ? "bg-black" : "bg-transparent")} style={{ transition: 'background-color 0.3s ease' }}>
+      <div className="container-fluid d-flex justify-content-between align-items-center px-4">
+        <a href="#inicio" className="text-white text-decoration-none">
+          <h1 className="fw-black text-uppercase m-0 tracking-tighter" style={{fontSize: '1.5rem', letterSpacing: '-1px'}}>Tridentist</h1>
+        </a>
+        
+        <div className="d-none d-lg-flex gap-4">
+          {navItems.map(item => (
+            <a 
+              key={item} 
+              href={"#" + item.toLowerCase().replace(' ', '-')} 
+              className="text-white text-decoration-none fw-bold text-uppercase fs-6 tracking-widest hover-text-info transition-all"
+              style={{ letterSpacing: '2px' }}
+            >
+              {item}
+            </a>
+          ))}
+        </div>
+        
+        <a href="/admin/login" className="btn btn-outline-light rounded-0 border-2 fw-bold text-uppercase tracking-widest px-4 py-2 d-none d-lg-block hover-bg-white text-decoration-none">
+          Portal Admin
+        </a>
+      </div>
+    </nav>
+  );
 };
 
 const Landing = () => {
@@ -17,15 +57,52 @@ const Landing = () => {
       animate="in"
       exit="out"
       variants={pageVariants}
-      className="bg-dark-gray min-h-screen"
+      className="bg-black text-white"
     >
-      <Hero />
-      <Treatments />
-      <Specialists />
+      <Navigation />
       
-      <footer className="py-12 bg-black text-center border-t border-gray-900">
-        <h2 className="text-3xl font-black uppercase tracking-tighter text-white opacity-50 mb-4">Tridentist</h2>
-        <p className="text-gray-600 text-sm">© 2026 Tridentist Dental Clinic. All Rights Reserved.</p>
+      <div id="inicio">
+        <Hero />
+      </div>
+
+      {/* Placeholders for other sections to make it a SPA */}
+      <section id="quienes-somos" className="vh-100 position-relative d-flex align-items-center justify-content-center border-bottom border-secondary overflow-hidden">
+        <video autoPlay loop muted playsInline className="position-absolute top-0 start-0 w-100 h-100 object-fit-cover" style={{ zIndex: 0 }} src="/quienes_somos.webm" />
+        <div className="position-absolute top-0 start-0 w-100 h-100 bg-black opacity-75" style={{ zIndex: 1 }}></div>
+        <div className="container text-center position-relative" style={{ zIndex: 2 }}>
+          <h2 className="display-1 fw-black text-white text-uppercase tracking-tighter mb-4" style={{ letterSpacing: '-3px' }}>Quiénes Somos</h2>
+          <p className="fs-4 text-light max-w-700 mx-auto">La excelencia no es un acto, es un hábito. Redefinimos el estándar de atención dental.</p>
+        </div>
+      </section>
+
+      <div id="nuestros-doctores">
+        <Specialists />
+      </div>
+      
+      <section id="ubicacion" className="vh-100 position-relative d-flex align-items-center justify-content-center border-bottom border-secondary overflow-hidden">
+        <video autoPlay loop muted playsInline className="position-absolute top-0 start-0 w-100 h-100 object-fit-cover" style={{ zIndex: 0 }} src="/ubicacion.webm" />
+        <div className="position-absolute top-0 start-0 w-100 h-100 bg-black opacity-75" style={{ zIndex: 1 }}></div>
+        <div className="container text-center position-relative" style={{ zIndex: 2 }}>
+          <h2 className="display-1 fw-black text-white text-uppercase tracking-tighter mb-4" style={{ letterSpacing: '-3px' }}>Ubicación</h2>
+          <p className="fs-4 text-light">Avenida Principal 123, Distrito Central, Ciudad</p>
+        </div>
+      </section>
+
+      <section id="contacto" className="vh-100 position-relative d-flex align-items-center justify-content-center overflow-hidden">
+        <video autoPlay loop muted playsInline className="position-absolute top-0 start-0 w-100 h-100 object-fit-cover" style={{ zIndex: 0 }} src="/contacto.webm" />
+        <div className="position-absolute top-0 start-0 w-100 h-100 bg-black opacity-75" style={{ zIndex: 1 }}></div>
+        <div className="container text-center position-relative" style={{ zIndex: 2 }}>
+          <h2 className="display-1 fw-black text-white text-uppercase tracking-tighter mb-4" style={{ letterSpacing: '-3px' }}>Contacto</h2>
+          <p className="fs-4 text-light mb-5">Hablemos sobre tu próxima sonrisa.</p>
+          <a href="mailto:info@tridentist.com" className="btn btn-info rounded-0 border-0 fw-black text-uppercase tracking-widest px-5 py-3 fs-5">
+            AGENDAR CITA
+          </a>
+        </div>
+      </section>
+
+      <footer className="py-5 bg-black text-center border-top border-secondary">
+        <h2 className="fs-3 fw-black uppercase tracking-tighter text-white opacity-25 mb-3">Tridentist</h2>
+        <p className="text-secondary small">© 2026 Tridentist Dental Clinic. All Rights Reserved.</p>
       </footer>
     </motion.div>
   );

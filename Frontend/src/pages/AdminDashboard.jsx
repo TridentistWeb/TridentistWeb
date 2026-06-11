@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import GenericCRUD from '../components/Admin/GenericCRUD';
 import Consultas from './Consultas';
-import { LogOut, Users, Activity, Calendar, FileText, UserPlus, Search } from 'lucide-react';
+import { LogOut, Users, Activity, Calendar, FileText, UserPlus, Search, Stethoscope } from 'lucide-react';
 
 const AdminDashboard = () => {
-  const [activeTab, setActiveTab] = useState('pacientes');
+  const [activeTab, setActiveTab] = useState('doctores');
   const [adminName, setAdminName] = useState('');
   const navigate = useNavigate();
 
@@ -24,8 +24,8 @@ const AdminDashboard = () => {
   };
 
   const tabs = [
-    { id: 'pacientes', label: 'Pacientes', icon: Users },
     { id: 'doctores', label: 'Doctores', icon: UserPlus },
+    { id: 'pacientes', label: 'Pacientes', icon: Users },
     { id: 'tratamientos', label: 'Tratamientos', icon: Activity },
     { id: 'citas', label: 'Citas', icon: Calendar },
     { id: 'boletas', label: 'Boletas', icon: FileText },
@@ -34,17 +34,17 @@ const AdminDashboard = () => {
 
   const renderContent = () => {
     switch(activeTab) {
+      case 'doctores':
+        return <GenericCRUD 
+          entityName="Doctores" endpoint="/doctors" primaryKey="codigo"
+          columns={[{key: 'dni', label: 'DNI'}, {key: 'nombres', label: 'Nombres'}, {key: 'apellidos', label: 'Apellidos'}, {key: 'especialidad', label: 'Especialidad'}]}
+          formFields={[{name: 'dni', label: 'DNI', required: true}, {name: 'nombres', label: 'Nombres', required: true}, {name: 'apellidos', label: 'Apellidos'}, {name: 'especialidad', label: 'Especialidad', required: true}]}
+        />;
       case 'pacientes':
         return <GenericCRUD 
           entityName="Pacientes" endpoint="/pacientes" primaryKey="codigo"
           columns={[{key: 'dni', label: 'DNI'}, {key: 'nombres', label: 'Nombres'}, {key: 'apellidos', label: 'Apellidos'}, {key: 'celular', label: 'Celular'}]}
           formFields={[{name: 'dni', label: 'DNI', required: true}, {name: 'nombres', label: 'Nombres', required: true}, {name: 'apellidos', label: 'Apellidos'}, {name: 'celular', label: 'Celular'}, {name: 'email', label: 'Email', type: 'email'}]}
-        />;
-      case 'doctores':
-        return <GenericCRUD 
-          entityName="Doctores" endpoint="/doctores" primaryKey="codigo"
-          columns={[{key: 'dni', label: 'DNI'}, {key: 'nombres', label: 'Nombres'}, {key: 'apellidos', label: 'Apellidos'}, {key: 'especialidad', label: 'Especialidad'}]}
-          formFields={[{name: 'dni', label: 'DNI', required: true}, {name: 'nombres', label: 'Nombres', required: true}, {name: 'apellidos', label: 'Apellidos'}, {name: 'especialidad', label: 'Especialidad', required: true}]}
         />;
       case 'tratamientos':
         return <GenericCRUD 
@@ -71,45 +71,66 @@ const AdminDashboard = () => {
   };
 
   return (
-    <div className="container-fluid min-vh-100 bg-dark text-white p-0 d-flex">
-      {/* Sidebar */}
-      <div className="d-flex flex-column flex-shrink-0 p-3 text-white bg-dark border-end border-secondary" style={{ width: '280px' }}>
-        <a href="/" className="d-flex align-items-center mb-3 mb-md-0 me-md-auto text-white text-decoration-none border-bottom border-secondary pb-3 w-100">
-          <span className="fs-4 fw-bold text-uppercase">Tridentist <span className="text-primary fs-6 d-block">Admin Panel</span></span>
+    <div className="container-fluid min-vh-100 p-0 d-flex" style={{ backgroundColor: '#0f172a' }}>
+      {/* Sidebar Profesional */}
+      <div className="d-flex flex-column flex-shrink-0 p-4 text-white shadow-lg" style={{ width: '280px', backgroundColor: '#1e293b' }}>
+        <a href="/" className="d-flex align-items-center mb-4 text-white text-decoration-none border-bottom border-secondary pb-3">
+          <Stethoscope className="text-primary me-3" size={32} />
+          <div>
+            <span className="fs-4 fw-bold text-uppercase d-block lh-1" style={{ letterSpacing: '1px' }}>Tridentist</span>
+            <span className="text-primary fs-6 fw-semibold" style={{ letterSpacing: '2px' }}>ADMIN PANEL</span>
+          </div>
         </a>
-        <ul className="nav nav-pills flex-column mb-auto mt-3 gap-2">
+        <ul className="nav nav-pills flex-column mb-auto mt-2 gap-2">
           {tabs.map(tab => {
             const isActive = activeTab === tab.id;
             return (
               <li className="nav-item" key={tab.id}>
                 <button 
                   onClick={() => setActiveTab(tab.id)}
-                  className={`nav-link text-uppercase fw-bold w-100 text-start d-flex align-items-center gap-3 ${isActive ? 'active bg-primary' : 'text-white hover-bg-secondary'}`}
-                  style={!isActive ? { transition: 'background-color 0.2s' } : {}}
-                  onMouseOver={(e) => !isActive && (e.currentTarget.style.backgroundColor = '#343a40')}
-                  onMouseOut={(e) => !isActive && (e.currentTarget.style.backgroundColor = 'transparent')}
+                  className={"nav-link fw-semibold w-100 text-start d-flex align-items-center gap-3 py-3 px-3 rounded-3 transition-all " + (isActive ? 'active bg-primary text-white shadow' : 'text-secondary')}
+                  style={!isActive ? { transition: 'all 0.3s' } : {}}
+                  onMouseOver={(e) => !isActive && (e.currentTarget.classList.add('text-white', 'bg-dark'))}
+                  onMouseOut={(e) => !isActive && (e.currentTarget.classList.remove('text-white', 'bg-dark'))}
                 >
-                  <tab.icon size={18} />
+                  <tab.icon size={20} className={isActive ? 'text-white' : 'text-primary'} />
                   {tab.label}
                 </button>
               </li>
             );
           })}
         </ul>
-        <hr className="border-secondary" />
-        <div className="dropdown">
-          <div className="d-flex align-items-center text-white text-decoration-none">
-            <strong className="me-2">Hola, {adminName}</strong>
-            <button onClick={handleLogout} className="btn btn-outline-danger btn-sm ms-auto d-flex align-items-center gap-2">
-              <LogOut size={16} /> Salir
+        <div className="mt-auto border-top border-secondary pt-4">
+          <div className="d-flex align-items-center justify-content-between text-white">
+            <div className="d-flex align-items-center gap-2">
+              <div className="bg-primary rounded-circle d-flex align-items-center justify-content-center fw-bold" style={{ width: '36px', height: '36px' }}>
+                {adminName.charAt(0).toUpperCase()}
+              </div>
+              <div className="lh-1">
+                <small className="text-secondary d-block">Bienvenido,</small>
+                <strong className="fw-semibold">{adminName}</strong>
+              </div>
+            </div>
+            <button onClick={handleLogout} className="btn btn-outline-danger btn-sm border-0 rounded-circle p-2" title="Cerrar Sesión">
+              <LogOut size={18} />
             </button>
           </div>
         </div>
       </div>
 
-      {/* Main Content */}
-      <div className="flex-grow-1 p-4 overflow-auto" style={{ backgroundColor: '#121212' }}>
-        {renderContent()}
+      {/* Main Content Area */}
+      <div className="flex-grow-1 p-5 overflow-auto">
+        <div className="container-fluid max-w-1200">
+          <div className="d-flex justify-content-between align-items-center mb-4 pb-3 border-bottom border-secondary">
+            <h2 className="text-white fw-bold m-0">
+              {tabs.find(t => t.id === activeTab)?.label}
+            </h2>
+            <div className="text-secondary small">
+              Panel de Administración / <span className="text-primary">{tabs.find(t => t.id === activeTab)?.label}</span>
+            </div>
+          </div>
+          {renderContent()}
+        </div>
       </div>
     </div>
   );
