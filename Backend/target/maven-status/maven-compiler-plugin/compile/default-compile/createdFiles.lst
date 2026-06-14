@@ -1,10 +1,12 @@
 com/utp/tridentist/config/CorsConfig.class
 com/utp/tridentist/repository/TratamientoRepository.class
 com/utp/tridentist/service/PdfService.class
+com/utp/tridentist/controller/PublicCitaController.class
 com/utp/tridentist/controller/AuthController.class
 com/utp/tridentist/service/CitaService.class
 com/utp/tridentist/model/DetalleBoleta.class
 com/utp/tridentist/dto/CitaDetalleDTO.class
+com/utp/tridentist/dto/ReservaCitaDTO.class
 com/utp/tridentist/config/CorsConfig$1.class
 com/utp/tridentist/controller/PacienteController.class
 com/utp/tridentist/service/DoctorService.class
@@ -30,6 +32,7 @@ com/utp/tridentist/dto/LoginRequest.class
 com/utp/tridentist/service/AdministradorService.class
 com/utp/tridentist/repository/PacienteRepository.class
 com/utp/tridentist/config/SecurityConfig.class
+com/utp/tridentist/service/EmailService.class
 com/utp/tridentist/controller/CitaController.class
 com/utp/tridentist/TridentistApplication.class
 com/utp/tridentist/controller/BoletaController.class

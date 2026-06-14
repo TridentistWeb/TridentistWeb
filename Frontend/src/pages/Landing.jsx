@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
 import Hero from '../components/Landing/Hero';
 import Specialists from '../components/Landing/Specialists';
+import BookingModal from '../components/Landing/BookingModal';
 
 const pageVariants = {
   initial: { opacity: 0 },
@@ -51,6 +52,8 @@ const Navigation = () => {
 };
 
 const Landing = () => {
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   return (
     <motion.div
       initial="initial"
@@ -62,10 +65,11 @@ const Landing = () => {
       <Navigation />
       
       <div id="inicio">
-        <Hero />
+        {/* Pasamos la función para abrir el modal desde el Hero */}
+        <Hero onOpenModal={() => setIsModalOpen(true)} />
       </div>
 
-      {/* Placeholders for other sections to make it a SPA */}
+      {/* Quiénes Somos */}
       <section id="quienes-somos" className="vh-100 position-relative d-flex align-items-center justify-content-center border-bottom border-secondary overflow-hidden">
         <video autoPlay loop muted playsInline className="position-absolute top-0 start-0 w-100 h-100 object-fit-cover" style={{ zIndex: 0 }} src="/quienes_somos.webm" />
         <div className="position-absolute top-0 start-0 w-100 h-100 bg-black opacity-75" style={{ zIndex: 1 }}></div>
@@ -75,10 +79,12 @@ const Landing = () => {
         </div>
       </section>
 
+      {/* Especialistas */}
       <div id="nuestros-doctores">
         <Specialists />
       </div>
       
+      {/* Ubicación */}
       <section id="ubicacion" className="vh-100 position-relative d-flex align-items-center justify-content-center border-bottom border-secondary overflow-hidden">
         <video autoPlay loop muted playsInline className="position-absolute top-0 start-0 w-100 h-100 object-fit-cover" style={{ zIndex: 0 }} src="/ubicacion.webm" />
         <div className="position-absolute top-0 start-0 w-100 h-100 bg-black opacity-75" style={{ zIndex: 1 }}></div>
@@ -88,22 +94,27 @@ const Landing = () => {
         </div>
       </section>
 
+      {/* Contacto */}
       <section id="contacto" className="vh-100 position-relative d-flex align-items-center justify-content-center overflow-hidden">
         <video autoPlay loop muted playsInline className="position-absolute top-0 start-0 w-100 h-100 object-fit-cover" style={{ zIndex: 0 }} src="/contacto.webm" />
         <div className="position-absolute top-0 start-0 w-100 h-100 bg-black opacity-75" style={{ zIndex: 1 }}></div>
         <div className="container text-center position-relative" style={{ zIndex: 2 }}>
           <h2 className="display-1 fw-black text-white text-uppercase tracking-tighter mb-4" style={{ letterSpacing: '-3px' }}>Contacto</h2>
           <p className="fs-4 text-light mb-5">Hablemos sobre tu próxima sonrisa.</p>
-          <a href="mailto:info@tridentist.com" className="btn btn-info rounded-0 border-0 fw-black text-uppercase tracking-widest px-5 py-3 fs-5">
+          <button onClick={() => setIsModalOpen(true)} className="btn btn-info rounded-0 border-0 fw-black text-uppercase tracking-widest px-5 py-3 fs-5">
             AGENDAR CITA
-          </a>
+          </button>
         </div>
       </section>
 
+      {/* Footer */}
       <footer className="py-5 bg-black text-center border-top border-secondary">
         <h2 className="fs-3 fw-black uppercase tracking-tighter text-white opacity-25 mb-3">Tridentist</h2>
         <p className="text-secondary small">© 2026 Tridentist Dental Clinic. All Rights Reserved.</p>
       </footer>
+
+      {/* Componente del Modal de Citas Inyectado Correctamente */}
+      <BookingModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
     </motion.div>
   );
 };

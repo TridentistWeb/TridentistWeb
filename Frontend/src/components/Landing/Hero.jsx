@@ -2,7 +2,7 @@ import React from 'react';
 import { motion } from 'framer-motion';
 import { ChevronDown } from 'lucide-react';
 
-const Hero = () => {
+const Hero = ({ onOpenModal }) => {
   return (
     <div className="relative h-screen w-full overflow-hidden flex items-center justify-center">
       {/* Background Video */}
@@ -45,7 +45,7 @@ const Hero = () => {
           transition={{ duration: 1, delay: 1.5 }}
           className="flex flex-col sm:flex-row items-center justify-center gap-6"
         >
-          <button className="bg-dental-blue hover:bg-dental-blue-light text-white px-10 py-4 rounded-full font-bold uppercase tracking-wider transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_20px_rgba(10,36,99,0.5)]">
+          <button onClick={onOpenModal} className="bg-dental-blue hover:bg-dental-blue-light text-white px-10 py-4 rounded-full font-bold uppercase tracking-wider transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_20px_rgba(10,36,99,0.5)]">
             Reserva tu Cita
           </button>
           <a href="/admin/login" className="text-gray-400 hover:text-white uppercase tracking-widest text-sm font-semibold transition-colors duration-300 border-b border-transparent hover:border-white pb-1">
