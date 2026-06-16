@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { motion } from 'framer-motion';
 import { useNavigate } from 'react-router-dom';
+import { ArrowLeft } from 'lucide-react';
 import api from '../api/axiosConfig';
 
 const Login = () => {
@@ -23,6 +24,16 @@ const Login = () => {
 
   return (
     <div className="min-h-screen bg-black flex items-center justify-center relative overflow-hidden">
+      {/* Floating Back Button */}
+      <button 
+        onClick={() => navigate('/')} 
+        className="absolute top-6 left-6 md:top-8 md:left-8 text-gray-500 hover:text-white transition-colors flex items-center gap-2 text-sm uppercase tracking-wider font-bold z-20 cursor-pointer"
+        aria-label="Volver al Inicio"
+      >
+        <ArrowLeft size={18} />
+        <span>Volver al Inicio</span>
+      </button>
+
       <div className="absolute w-full h-full bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-dental-blue-light/20 via-black to-black z-0"></div>
       
       <motion.div 

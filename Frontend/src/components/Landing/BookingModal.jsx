@@ -90,7 +90,7 @@ const BookingModal = ({ isOpen, onClose }) => {
   return (
     <AnimatePresence>
       {isOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 md:p-6">
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
@@ -100,22 +100,22 @@ const BookingModal = ({ isOpen, onClose }) => {
           />
           
           <motion.div
-            initial={{ opacity: 0, y: 50, scale: 0.95 }}
+            initial={{ opacity: 0, y: 30, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 20, scale: 0.95 }}
-            transition={{ type: "spring", duration: 0.5 }}
-            className="relative w-full max-w-2xl bg-zinc-900 border border-zinc-700 rounded-2xl shadow-2xl overflow-hidden z-10"
+            exit={{ opacity: 0, y: 20, scale: 0.98 }}
+            transition={{ type: "spring", duration: 0.4 }}
+            className="relative w-full max-w-2xl max-h-[90vh] bg-zinc-900 border border-zinc-700 rounded-2xl shadow-2xl overflow-y-auto z-10 mx-auto"
           >
-            <div className="p-6 md:p-8">
+            <div className="p-5 sm:p-6 md:p-8">
               <button 
                 onClick={onClose}
-                className="absolute top-4 right-4 text-zinc-400 hover:text-white transition-colors"
+                className="absolute top-4 right-4 text-zinc-400 hover:text-white transition-colors p-1"
               >
                 <X size={24} />
               </button>
 
-              <h2 className="text-3xl font-black text-white uppercase tracking-tighter mb-2">Reserva tu Cita</h2>
-              <p className="text-zinc-400 mb-8">Déjanos tus datos y nos pondremos en contacto contigo a la brevedad.</p>
+              <h2 className="text-2xl sm:text-3xl font-black text-white uppercase tracking-tighter mb-1 mt-2 sm:mt-0">Reserva tu Cita</h2>
+              <p className="text-sm sm:text-base text-zinc-400 mb-6 sm:mb-8">Déjanos tus datos y nos pondremos en contacto contigo a la brevedad.</p>
 
               {submitStatus === 'success' ? (
                 <motion.div 
@@ -128,12 +128,12 @@ const BookingModal = ({ isOpen, onClose }) => {
                 </motion.div>
               ) : (
                 <form onSubmit={handleSubmit} className="space-y-4">
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <input 
                         type="text" name="nombres" placeholder="Nombres y Apellidos"
                         value={formData.nombres} onChange={handleChange}
-                        className={`w-full bg-zinc-800 text-white px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 transition-all ${errors.nombres ? 'border-red-500 focus:ring-red-500' : 'border-zinc-700 focus:border-zinc-500 focus:ring-zinc-600'}`}
+                        className={`w-full bg-zinc-800 text-white px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 transition-all text-sm sm:text-base ${errors.nombres ? 'border-red-500 focus:ring-red-500' : 'border-zinc-700 focus:border-zinc-500 focus:ring-zinc-600'}`}
                       />
                       {errors.nombres && <p className="text-red-500 text-xs mt-1">{errors.nombres}</p>}
                     </div>
@@ -142,7 +142,7 @@ const BookingModal = ({ isOpen, onClose }) => {
                       <input 
                         type="email" name="email" placeholder="Correo Electrónico"
                         value={formData.email} onChange={handleChange}
-                        className={`w-full bg-zinc-800 text-white px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 transition-all ${errors.email ? 'border-red-500 focus:ring-red-500' : 'border-zinc-700 focus:border-zinc-500 focus:ring-zinc-600'}`}
+                        className={`w-full bg-zinc-800 text-white px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 transition-all text-sm sm:text-base ${errors.email ? 'border-red-500 focus:ring-red-500' : 'border-zinc-700 focus:border-zinc-500 focus:ring-zinc-600'}`}
                       />
                       {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
                     </div>
@@ -151,7 +151,7 @@ const BookingModal = ({ isOpen, onClose }) => {
                       <input 
                         type="tel" name="telefono" placeholder="Teléfono o Celular"
                         value={formData.telefono} onChange={handleChange}
-                        className={`w-full bg-zinc-800 text-white px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 transition-all ${errors.telefono ? 'border-red-500 focus:ring-red-500' : 'border-zinc-700 focus:border-zinc-500 focus:ring-zinc-600'}`}
+                        className={`w-full bg-zinc-800 text-white px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 transition-all text-sm sm:text-base ${errors.telefono ? 'border-red-500 focus:ring-red-500' : 'border-zinc-700 focus:border-zinc-500 focus:ring-zinc-600'}`}
                       />
                       {errors.telefono && <p className="text-red-500 text-xs mt-1">{errors.telefono}</p>}
                     </div>
@@ -161,7 +161,7 @@ const BookingModal = ({ isOpen, onClose }) => {
                         <select 
                           name="comoSeEntero" 
                           value={formData.comoSeEntero} onChange={handleChange}
-                          className={`w-full bg-zinc-800 text-white px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 transition-all appearance-none ${errors.comoSeEntero ? 'border-red-500 focus:ring-red-500' : 'border-zinc-700 focus:border-zinc-500 focus:ring-zinc-600'}`}
+                          className={`w-full bg-zinc-800 text-white px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 transition-all appearance-none text-sm sm:text-base ${errors.comoSeEntero ? 'border-red-500 focus:ring-red-500' : 'border-zinc-700 focus:border-zinc-500 focus:ring-zinc-600'}`}
                         >
                           <option value="" disabled>¿Cómo se enteró?</option>
                           {poolsOrigenes.map(org => <option key={org} value={org}>{org}</option>)}
@@ -176,7 +176,7 @@ const BookingModal = ({ isOpen, onClose }) => {
                       <select 
                         name="especialidad" 
                         value={formData.especialidad} onChange={handleChange}
-                        className={`w-full bg-zinc-800 text-white px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 transition-all appearance-none ${errors.especialidad ? 'border-red-500 focus:ring-red-500' : 'border-zinc-700 focus:border-zinc-500 focus:ring-zinc-600'}`}
+                        className={`w-full bg-zinc-800 text-white px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 transition-all appearance-none text-sm sm:text-base ${errors.especialidad ? 'border-red-500 focus:ring-red-500' : 'border-zinc-700 focus:border-zinc-500 focus:ring-zinc-600'}`}
                       >
                         <option value="" disabled>Seleccione una especialidad</option>
                         {poolsEspecialidades.map(esp => <option key={esp} value={esp}>{esp}</option>)}
@@ -185,12 +185,12 @@ const BookingModal = ({ isOpen, onClose }) => {
                     {errors.especialidad && <p className="text-red-500 text-xs mt-1">{errors.especialidad}</p>}
                   </div>
 
-                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
                     <div>
                       <input 
                         type="date" name="fecha"
                         value={formData.fecha} onChange={handleChange}
-                        className={`w-full bg-zinc-800 text-white px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 transition-all ${errors.fecha ? 'border-red-500 focus:ring-red-500' : 'border-zinc-700 focus:border-zinc-500 focus:ring-zinc-600'} [color-scheme:dark]`}
+                        className={`w-full bg-zinc-800 text-white px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 transition-all text-sm sm:text-base ${errors.fecha ? 'border-red-500 focus:ring-red-500' : 'border-zinc-700 focus:border-zinc-500 focus:ring-zinc-600'} [color-scheme:dark]`}
                       />
                       {errors.fecha && <p className="text-red-500 text-xs mt-1">{errors.fecha}</p>}
                     </div>
@@ -198,7 +198,7 @@ const BookingModal = ({ isOpen, onClose }) => {
                       <input 
                         type="time" name="hora"
                         value={formData.hora} onChange={handleChange}
-                        className={`w-full bg-zinc-800 text-white px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 transition-all ${errors.hora ? 'border-red-500 focus:ring-red-500' : 'border-zinc-700 focus:border-zinc-500 focus:ring-zinc-600'} [color-scheme:dark]`}
+                        className={`w-full bg-zinc-800 text-white px-4 py-3 rounded-lg border focus:outline-none focus:ring-2 transition-all text-sm sm:text-base ${errors.hora ? 'border-red-500 focus:ring-red-500' : 'border-zinc-700 focus:border-zinc-500 focus:ring-zinc-600'} [color-scheme:dark]`}
                       />
                       {errors.hora && <p className="text-red-500 text-xs mt-1">{errors.hora}</p>}
                     </div>
@@ -208,17 +208,17 @@ const BookingModal = ({ isOpen, onClose }) => {
                     <textarea 
                       name="comentario" placeholder="Ingrese un comentario (opcional)..." rows="3"
                       value={formData.comentario} onChange={handleChange}
-                      className="w-full bg-zinc-800 text-white px-4 py-3 rounded-lg border border-zinc-700 focus:border-zinc-500 focus:ring-2 focus:ring-zinc-600 focus:outline-none transition-all resize-none"
+                      className="w-full bg-zinc-800 text-white px-4 py-3 rounded-lg border border-zinc-700 focus:border-zinc-500 focus:ring-2 focus:ring-zinc-600 focus:outline-none transition-all resize-none text-sm sm:text-base"
                     ></textarea>
                   </div>
 
-                  <div className="flex items-center">
+                  <div className="flex items-start sm:items-center">
                     <input 
                       type="checkbox" id="aceptaPoliticas" name="aceptaPoliticas"
                       checked={formData.aceptaPoliticas} onChange={handleChange}
-                      className="w-4 h-4 bg-zinc-800 border-zinc-700 rounded focus:ring-zinc-600 focus:ring-2 accent-white"
+                      className="mt-1 sm:mt-0 w-4 h-4 bg-zinc-800 border-zinc-700 rounded focus:ring-zinc-600 focus:ring-2 accent-white shrink-0"
                     />
-                    <label htmlFor="aceptaPoliticas" className="ml-2 text-sm text-zinc-400">
+                    <label htmlFor="aceptaPoliticas" className="ml-2 text-xs sm:text-sm text-zinc-400 leading-tight">
                       He leído y acepto las <a href="#" className="text-white hover:underline">Políticas de Privacidad</a>
                     </label>
                   </div>
@@ -231,7 +231,7 @@ const BookingModal = ({ isOpen, onClose }) => {
                   <button 
                     type="submit"
                     disabled={isSubmitting}
-                    className="w-full bg-white hover:bg-zinc-200 text-black font-bold uppercase tracking-widest py-4 rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed mt-4"
+                    className="w-full bg-white hover:bg-zinc-200 text-black font-bold uppercase tracking-widest py-3 sm:py-4 rounded-lg transition-all duration-300 disabled:opacity-50 disabled:cursor-not-allowed mt-2 text-sm sm:text-base"
                   >
                     {isSubmitting ? 'Enviando...' : 'Confirmar Reserva'}
                   </button>

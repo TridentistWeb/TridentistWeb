@@ -20,8 +20,8 @@ com/utp/tridentist/controller/TratamientoController.class
 com/utp/tridentist/security/JwtAuthFilter.class
 com/utp/tridentist/model/Paciente.class
 com/utp/tridentist/repository/DetalleBoletaRepository.class
-com/utp/tridentist/service/TratamientoService.class
 com/utp/tridentist/service/DetalleBoletaService.class
+com/utp/tridentist/service/TratamientoService.class
 com/utp/tridentist/model/Doctor.class
 com/utp/tridentist/security/JwtUtil.class
 com/utp/tridentist/controller/ConsultaController.class
@@ -34,10 +34,10 @@ com/utp/tridentist/repository/PacienteRepository.class
 com/utp/tridentist/config/SecurityConfig.class
 com/utp/tridentist/service/EmailService.class
 com/utp/tridentist/controller/CitaController.class
-com/utp/tridentist/TridentistApplication.class
 com/utp/tridentist/controller/BoletaController.class
 com/utp/tridentist/repository/BoletaRepository.class
 com/utp/tridentist/repository/AdministradorRepository.class
 com/utp/tridentist/model/Administrador.class
+com/utp/tridentist/TridentistApplication.class
 com/utp/tridentist/service/BoletaService.class
 com/utp/tridentist/model/Cita.class
