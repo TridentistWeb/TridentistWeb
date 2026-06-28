@@ -1,6 +1,8 @@
 package com.utp.tridentist.controller;
 
 import com.utp.tridentist.model.Boleta;
+import com.utp.tridentist.model.Paciente;
+import com.utp.tridentist.repository.PacienteRepository;
 import com.utp.tridentist.service.BoletaService;
 import com.utp.tridentist.service.PdfService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,11 +11,13 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/boletas")
+@CrossOrigin(origins = "*")
 public class BoletaController {
 
     @Autowired
@@ -22,21 +26,33 @@ public class BoletaController {
     @Autowired
     private PdfService pdfService;
 
-    // 1. Obtener todas las boletas
+    @Autowired
+    private PacienteRepository pacienteRepository;
+
     @GetMapping
     public List<Boleta> getAll() {
-        return service.findAll();
+        List<Boleta> boletas = service.findAll();
+        for (Boleta b : boletas) {
+            if (b.getPaciente() != null) {
+                b.setPacienteId(b.getPaciente().getCodigo());
+            }
+        }
+        return boletas;
     }
 
-    // 2. Obtener boleta por ID
     @GetMapping("/{id}")
     public ResponseEntity<Boleta> getById(@PathVariable Integer id) {
         Optional<Boleta> entity = service.findById(id);
-        return entity.map(ResponseEntity::ok)
-                     .orElseGet(() -> ResponseEntity.notFound().build());
+        if (entity.isPresent()) {
+            Boleta b = entity.get();
+            if (b.getPaciente() != null) {
+                b.setPacienteId(b.getPaciente().getCodigo());
+            }
+            return ResponseEntity.ok(b);
+        }
+        return ResponseEntity.notFound().build();
     }
 
-    // 3. Generar y descargar PDF de la boleta
     @GetMapping("/{id}/pdf")
     public ResponseEntity<byte[]> getBoletaPdf(@PathVariable Integer id) {
         try {
@@ -50,22 +66,47 @@ public class BoletaController {
         }
     }
 
-    // 4. Crear una nueva boleta
     @PostMapping
-    public Boleta create(@RequestBody Boleta entity) {
-        return service.save(entity);
+    public ResponseEntity<Boleta> create(@RequestBody Boleta entity) {
+        if (entity.getFechaEmision() == null) {
+            entity.setFechaEmision(LocalDateTime.now());
+        }
+        if (entity.getPacienteId() != null) {
+            Optional<Paciente> pOpt = pacienteRepository.findById(entity.getPacienteId());
+            pOpt.ifPresent(entity::setPaciente);
+        }
+        if (entity.getPaciente() == null) {
+            List<Paciente> pacientes = pacienteRepository.findAll();
+            if (!pacientes.isEmpty()) {
+                entity.setPaciente(pacientes.get(0));
+            }
+        }
+        Boleta saved = service.save(entity);
+        return ResponseEntity.ok(saved);
     }
 
-    // 5. Actualizar una boleta existente
     @PutMapping("/{id}")
     public ResponseEntity<Boleta> update(@PathVariable Integer id, @RequestBody Boleta entityDetails) {
-        return service.findById(id).map(existingEntity -> {
-            // Se asume que el ID se maneja correctamente o viene en el payload
-            return ResponseEntity.ok(service.save(entityDetails));
-        }).orElseGet(() -> ResponseEntity.notFound().build());
+        Optional<Boleta> existingOpt = service.findById(id);
+        if (existingOpt.isPresent()) {
+            Boleta existing = existingOpt.get();
+            existing.setNumeroBoleta(id);
+            if (entityDetails.getFechaEmision() != null) {
+                existing.setFechaEmision(entityDetails.getFechaEmision());
+            }
+            if (entityDetails.getTotal() != null) {
+                existing.setTotal(entityDetails.getTotal());
+            }
+            if (entityDetails.getPacienteId() != null) {
+                Optional<Paciente> pOpt = pacienteRepository.findById(entityDetails.getPacienteId());
+                pOpt.ifPresent(existing::setPaciente);
+            }
+            Boleta updated = service.save(existing);
+            return ResponseEntity.ok(updated);
+        }
+        return ResponseEntity.notFound().build();
     }
 
-    // 6. Eliminar una boleta
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> delete(@PathVariable Integer id) {
         if (service.findById(id).isPresent()) {

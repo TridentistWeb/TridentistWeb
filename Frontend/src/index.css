@@ -16,6 +16,49 @@ body {
   overflow-x: hidden;
 }
 
+/* Tooth SVG face hover */
+.tooth-face-polygon {
+  transition: all 0.2s ease;
+  cursor: pointer;
+}
+
+.tooth-face-polygon:hover {
+  filter: brightness(1.25);
+  stroke: #EF9F27;
+  stroke-width: 3px;
+}
+
+/* Print mode styles */
+@media print {
+  body {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+  }
+  .no-print, nav, sidebar, .btn, button, header {
+    display: none !important;
+  }
+  .odontograma-container {
+    background-color: #ffffff !important;
+    color: #000000 !important;
+    border: none !important;
+    box-shadow: none !important;
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+  .odontograma-grid-wrapper {
+    background-color: #ffffff !important;
+    border: 1px solid #ccc !important;
+  }
+  svg rect {
+    fill: #ffffff !important;
+    stroke: #000000 !important;
+  }
+  svg polygon[fill="#FFFFFF"] {
+    fill: #ffffff !important;
+    stroke: #000000 !important;
+  }
+}
+
 /* Custom scrollbar for premium feel */
 ::-webkit-scrollbar {
   width: 8px;
@@ -31,8 +74,6 @@ body {
   background: var(--color-dental-blue-light);
 }
 
-
-/* Custom GTA 6 Premium Styles */
 .hover-text-info:hover {
   color: #0dcaf0 !important;
   text-shadow: 0 0 10px rgba(13, 202, 240, 0.5);
@@ -64,29 +105,4 @@ body {
 .custom-scrollbar::-webkit-scrollbar-thumb {
   background-color: #0dcaf0;
   border-radius: 10px;
-}
-
-/* Doctors List Hover Effects */
-.doctor-list-item h3 {
-  transition: all 0.3s ease;
-}
-
-.doctor-list-item:hover h3 span.text-white {
-  color: #0dcaf0 !important;
-}
-
-.doctor-list-item.active h3 span.text-white {
-  color: #0dcaf0 !important;
-}
-
-.doctor-list-item.active {
-  background: linear-gradient(90deg, rgba(13,202,240,0.1) 0%, transparent 100%);
-  border-left: 4px solid #0dcaf0;
-}
-
-.play-tour-btn:hover span.text-white {
-  color: #0dcaf0 !important;
-}
-.play-tour-btn:hover div.bg-white {
-  background-color: #0dcaf0 !important;
 }

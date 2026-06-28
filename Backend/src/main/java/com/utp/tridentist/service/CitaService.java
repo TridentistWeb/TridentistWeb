@@ -18,7 +18,7 @@ public class CitaService {
         return repository.findAll();
     }
 
-    public Optional<Cita> findById(Integer id) {
+    public Optional<Cita> findById(Long id) {
         return repository.findById(id);
     }
 
@@ -26,7 +26,7 @@ public class CitaService {
         return repository.save(entity);
     }
 
-    public void deleteById(Integer id) {
+    public void deleteById(Long id) {
         repository.deleteById(id);
     }
 }

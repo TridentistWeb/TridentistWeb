@@ -19,19 +19,65 @@ public class Boleta {
     @JoinColumn(name = "codigo_paciente", nullable = false)
     private Paciente paciente;
 
+    @Transient
+    private Integer pacienteId;
+
     @Column(name = "total", nullable = false, precision = 10, scale = 2)
     private BigDecimal total = BigDecimal.ZERO;
 
-    // Getters and Setters
-    public Integer getNumeroBoleta() { return numeroBoleta; }
-    public void setNumeroBoleta(Integer numeroBoleta) { this.numeroBoleta = numeroBoleta; }
+    public Boleta() {
+    }
 
-    public LocalDateTime getFechaEmision() { return fechaEmision; }
-    public void setFechaEmision(LocalDateTime fechaEmision) { this.fechaEmision = fechaEmision; }
+    public Integer getId() {
+        return numeroBoleta;
+    }
 
-    public Paciente getPaciente() { return paciente; }
-    public void setPaciente(Paciente paciente) { this.paciente = paciente; }
+    public void setId(Integer id) {
+        this.numeroBoleta = id;
+    }
 
-    public BigDecimal getTotal() { return total; }
-    public void setTotal(BigDecimal total) { this.total = total; }
+    public Integer getNumeroBoleta() { 
+        return numeroBoleta; 
+    }
+    
+    public void setNumeroBoleta(Integer numeroBoleta) { 
+        this.numeroBoleta = numeroBoleta; 
+    }
+
+    public LocalDateTime getFechaEmision() { 
+        return fechaEmision; 
+    }
+    
+    public void setFechaEmision(LocalDateTime fechaEmision) { 
+        this.fechaEmision = fechaEmision; 
+    }
+
+    public Paciente getPaciente() { 
+        return paciente; 
+    }
+    
+    public void setPaciente(Paciente paciente) { 
+        this.paciente = paciente; 
+        if (paciente != null) {
+            this.pacienteId = paciente.getCodigo();
+        }
+    }
+
+    public Integer getPacienteId() {
+        if (pacienteId != null) return pacienteId;
+        if (paciente != null) return paciente.getCodigo();
+        return null;
+    }
+
+    public void setPacienteId(Integer pacienteId) {
+        this.pacienteId = pacienteId;
+    }
+
+    public BigDecimal getTotal() { 
+        return total; 
+    }
+    
+    public void setTotal(BigDecimal total) { 
+        this.total = total; 
+    }
 }

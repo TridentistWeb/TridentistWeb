@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/citas")
+@CrossOrigin(origins = "*")
 public class CitaController {
 
     @Autowired
@@ -22,7 +23,7 @@ public class CitaController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<Cita> getById(@PathVariable Integer id) {
+    public ResponseEntity<Cita> getById(@PathVariable Long id) {
         Optional<Cita> entity = service.findById(id);
         return entity.map(ResponseEntity::ok)
                      .orElseGet(() -> ResponseEntity.notFound().build());
@@ -34,21 +35,15 @@ public class CitaController {
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<Cita> update(@PathVariable Integer id, @RequestBody Cita entityDetails) {
+    public ResponseEntity<Cita> update(@PathVariable Long id, @RequestBody Cita entityDetails) {
         return service.findById(id).map(existingEntity -> {
-            // Assuming IDs are set properly for update, since we don't have a generic update method,
-            // we could either manually copy fields or just set ID. Setting ID is simplest:
-            // This is a basic implementation, we might need a custom mapping depending on fields.
-            // For now, save the entity directly assuming ID is provided or merged properly.
-            // But usually we should set the ID of the payload:
-            // Since there is no generic way in Java to set ID for all classes easily without reflection,
-            // we'll just save it directly if we assume it works or we skip it for this stub.
+            entityDetails.setId(id);
             return ResponseEntity.ok(service.save(entityDetails));
         }).orElseGet(() -> ResponseEntity.notFound().build());
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<Void> delete(@PathVariable Integer id) {
+    public ResponseEntity<Void> delete(@PathVariable Long id) {
         if (service.findById(id).isPresent()) {
             service.deleteById(id);
             return ResponseEntity.ok().build();

@@ -26,17 +26,17 @@ const Navigation = () => {
 
   return (
     <>
-      <nav className={"fixed-top w-100 transition-all p-3 p-md-4 z-5 " + (scrolled || isOpen ? "bg-black" : "bg-transparent")} style={{ transition: 'background-color 0.3s ease' }}>
+      <nav className={"fixed-top w-100 transition-all p-3 p-md-4 " + (scrolled || isOpen ? "bg-black" : "bg-transparent")} style={{ transition: 'background-color 0.3s ease', zIndex: 10000 }}>
         <div className="w-100 d-flex justify-content-between align-items-center px-2 px-md-4">
-          <a href="#inicio" className="text-white text-decoration-none z-5 d-flex align-items-center">
+          <a href="#inicio" className="text-white text-decoration-none d-flex align-items-center" style={{ zIndex: 10002 }}>
             <img src="/logo.png" alt="Tridentist" style={{ height: '40px', width: 'auto' }} />
           </a>
           
-          {/* Minimalist Hamburger Button (Always visible on all screens) */}
+          {/* Minimalist Hamburger Button */}
           <button
             onClick={() => setIsOpen(!isOpen)}
-            className="d-flex flex-column justify-content-center align-items-end border-0 bg-transparent p-2 z-5"
-            style={{ width: '40px', height: '40px', cursor: 'pointer', outline: 'none' }}
+            className="d-flex flex-column justify-content-center align-items-end border-0 bg-transparent p-2"
+            style={{ width: '40px', height: '40px', cursor: 'pointer', outline: 'none', zIndex: 10002 }}
             aria-label="Toggle Menu"
           >
             <motion.div
@@ -61,7 +61,7 @@ const Navigation = () => {
         </div>
       </nav>
 
-      {/* Hamburger Overlay Menu */}
+      {/* Hamburger Overlay Menu - Z-INDEX ALTO PARA CUBRIR TODO EL HERO */}
       <AnimatePresence>
         {isOpen && (
           <motion.div
@@ -71,10 +71,10 @@ const Navigation = () => {
             transition={{ duration: 0.3 }}
             className="position-fixed top-0 start-0 w-100 vh-100 d-flex flex-column align-items-center justify-content-center"
             style={{
-              backgroundColor: 'rgba(0, 0, 0, 0.95)',
-              backdropFilter: 'blur(10px)',
-              WebkitBackdropFilter: 'blur(10px)',
-              zIndex: 4,
+              backgroundColor: 'rgba(0, 0, 0, 0.98)',
+              backdropFilter: 'blur(12px)',
+              WebkitBackdropFilter: 'blur(12px)',
+              zIndex: 9999,
             }}
           >
             <div className="d-flex flex-column align-items-center gap-4 text-center">

@@ -11,6 +11,7 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/pacientes")
+@CrossOrigin(origins = "*")
 public class PacienteController {
 
     @Autowired
@@ -36,13 +37,7 @@ public class PacienteController {
     @PutMapping("/{id}")
     public ResponseEntity<Paciente> update(@PathVariable Integer id, @RequestBody Paciente entityDetails) {
         return service.findById(id).map(existingEntity -> {
-            // Assuming IDs are set properly for update, since we don't have a generic update method,
-            // we could either manually copy fields or just set ID. Setting ID is simplest:
-            // This is a basic implementation, we might need a custom mapping depending on fields.
-            // For now, save the entity directly assuming ID is provided or merged properly.
-            // But usually we should set the ID of the payload:
-            // Since there is no generic way in Java to set ID for all classes easily without reflection,
-            // we'll just save it directly if we assume it works or we skip it for this stub.
+            entityDetails.setCodigo(id);
             return ResponseEntity.ok(service.save(entityDetails));
         }).orElseGet(() -> ResponseEntity.notFound().build());
     }
