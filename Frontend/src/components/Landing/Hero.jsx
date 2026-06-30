@@ -1,67 +1,79 @@
 import React from 'react';
 import { motion } from 'framer-motion';
-import { ChevronDown } from 'lucide-react';
+import { ChevronDown, Calendar, Sparkles } from 'lucide-react';
 
 const Hero = ({ onOpenModal }) => {
   return (
-    <div className="relative h-screen w-full overflow-hidden flex items-center justify-center">
+    <div className="relative h-screen w-full overflow-hidden flex items-center justify-center bg-black">
       {/* Background Video */}
       <video
         autoPlay
         loop
         muted
         playsInline
-        className="absolute top-0 left-0 w-full h-full object-cover z-0 opacity-60"
+        className="absolute top-0 left-0 w-full h-full object-cover z-0 opacity-50"
       >
         <source src="/hero-bg.webm" type="video/webm" />
       </video>
 
       {/* Overlay Gradient */}
-      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/80 via-black/40 to-dark-gray z-10"></div>
+      <div className="absolute top-0 left-0 w-full h-full bg-gradient-to-b from-black/90 via-black/50 to-black z-10"></div>
 
       {/* Content */}
-      <div className="relative z-20 text-center px-4 max-w-5xl mx-auto">
-        <motion.h1 
-          initial={{ opacity: 0, y: 50, scale: 0.9 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          transition={{ duration: 1.2, ease: "easeOut" }}
-          className="text-6xl md:text-8xl font-black uppercase tracking-tighter text-white mb-6 drop-shadow-[0_0_15px_rgba(255,255,255,0.3)]"
+      <div className="relative z-20 text-center px-4 max-w-5xl mx-auto flex flex-col items-center">
+        {/* Official Logo Banner Badge */}
+        <motion.div
+          initial={{ opacity: 0, y: -30 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, ease: "easeOut" }}
+          className="mb-6 bg-white/95 p-3 rounded-2xl shadow-[0_0_30px_rgba(255,255,255,0.2)] inline-block backdrop-blur-md border border-white/20"
         >
-          Tridentist
-        </motion.h1>
+          <img 
+            src="/logo.png" 
+            alt="Tridentist Odontología Especializada" 
+            className="h-20 md:h-28 w-auto object-contain mx-auto" 
+          />
+        </motion.div>
         
         <motion.p 
-          initial={{ opacity: 0, y: 30 }}
+          initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1, delay: 0.5, ease: "easeOut" }}
-          className="text-xl md:text-3xl text-gray-300 font-light mb-12 uppercase tracking-widest"
+          transition={{ duration: 1, delay: 0.4, ease: "easeOut" }}
+          className="text-lg md:text-2xl text-cyan-400 font-bold uppercase tracking-widest mb-8 drop-shadow-md flex items-center gap-2 justify-center"
         >
-          Odontología de Alto Rendimiento
+          <Sparkles size={20} /> Odontología de Alto Rendimiento
         </motion.p>
         
         <motion.div
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ duration: 1, delay: 1.5 }}
-          className="flex flex-col sm:flex-row items-center justify-center gap-6"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 1, delay: 0.8 }}
+          className="flex flex-col sm:flex-row items-center justify-center gap-4 w-full max-w-md"
         >
-          <button onClick={onOpenModal} className="bg-dental-blue hover:bg-dental-blue-light text-white px-10 py-4 rounded-full font-bold uppercase tracking-wider transition-all duration-300 transform hover:scale-105 hover:shadow-[0_0_20px_rgba(10,36,99,0.5)]">
-            Reserva tu Cita
+          <button 
+            onClick={onOpenModal} 
+            className="w-full sm:w-auto bg-cyan-500 hover:bg-cyan-400 text-black px-8 py-4 rounded-full font-black uppercase tracking-wider transition-all duration-300 transform hover:scale-105 shadow-[0_0_25px_rgba(6,182,212,0.5)] flex items-center justify-center gap-2 text-base"
+          >
+            <Calendar size={20} /> Reserva tu Cita
           </button>
-          <a href="/admin/login" className="text-gray-400 hover:text-white uppercase tracking-widest text-sm font-semibold transition-colors duration-300 border-b border-transparent hover:border-white pb-1">
-            Acceso Admin
+          <a 
+            href="#quienes-somos" 
+            className="w-full sm:w-auto text-gray-300 hover:text-white uppercase tracking-widest text-sm font-semibold transition-all duration-300 border border-gray-700 hover:border-gray-400 rounded-full px-6 py-4 text-center bg-black/40 backdrop-blur"
+          >
+            Conócenos
           </a>
         </motion.div>
       </div>
 
       {/* Scroll Indicator */}
-      <motion.div 
-        animate={{ y: [0, 15, 0] }}
+      <motion.a 
+        href="#quienes-somos"
+        animate={{ y: [0, 12, 0] }}
         transition={{ repeat: Infinity, duration: 2 }}
-        className="absolute bottom-10 z-20 text-white opacity-50"
+        className="absolute bottom-8 z-20 text-white opacity-60 hover:opacity-100 transition-opacity"
       >
-        <ChevronDown size={40} />
-      </motion.div>
+        <ChevronDown size={36} />
+      </motion.a>
     </div>
   );
 };
